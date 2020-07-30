@@ -52,11 +52,12 @@ export default new Vuex.Store({
           method: "POST",
           url: `${myUrl}/register`,
           data: {
-            email: user.email,
-            password: user.password
+            email: user.registerEmail,
+            password: user.registerPassword
           }
         })
-        localStorage.setItem('access_token', dataUser.data.token)
+        commit('SET_LOGIN', true)
+        localStorage.setItem('access_token', dataUser.data.access_token)
         this.$router.push({name:'Home'})
 
       } catch (error) {
@@ -138,6 +139,21 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
+    async updateCart({ dispatch }) {
+      try {
+        const data = await Axios({
+          method: 'PATCH',
+          url: `${myUrl}/carts`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        // console.log(dataHistories.data);
+        // dispatch("SET_HISTORIES")
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async payments({ commit }) {
       try {
         const dataPayments = await Axios({
@@ -147,7 +163,7 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         })
-        this.$router.push({name:'Home'})
+        // this.$router.push({name:'Home'})
 
         // commit("SET_HISTORIES", dataPayments.data)
         console.log(dataPayments);

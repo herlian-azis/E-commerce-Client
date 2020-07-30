@@ -10,7 +10,7 @@ router.post('/',cart.postCart)
 // router.use(cartAuthorization)
 console.log('masukkkk');
 router.delete('/:id',cartAuthorization,cart.delete)
-router.patch('/:id',cartAuthorization,cart.updated)
+router.patch('/',cartAuthorization,cart.updated)
 router.get('/payments',cart.payment)
 
 

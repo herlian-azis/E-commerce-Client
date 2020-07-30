@@ -27,7 +27,7 @@ module.exports = class CartController {
         const UserId = req.myUser.id
         const { quantity } = req.body
         try {
-            const post = await Cart.findOne({ where: { UserId, ProductId } })
+            const post = await Cart.findOne({ where: {  ProductId } })
 
             if (post) {
                 const data = await post.update({ quantity: post.quantity + (+quantity) })
@@ -66,7 +66,6 @@ module.exports = class CartController {
         try {
             const cartData = await Cart.findOne({
                 where: {
-                    id: req.params.id,
                     UserId: req.myUser.id
                 }
             })
@@ -105,7 +104,7 @@ module.exports = class CartController {
                 totalPrice: 0
             }
             
-            // console.log(fullPayment,'masukkk');
+            console.log(fullPayment,'masukkk');
             fullPayment.forEach(result => {
                 if (result.quantity > result.Product.stock) {
                     // console.log(total)
@@ -124,10 +123,12 @@ module.exports = class CartController {
                     data.totalPrice += result.quantity * result.Product.price,
                         data.totalQuantity += result.quantity
                 }
+
+                console.log(data,'dataaa');
             })
-            if (data.product == []) {
-                next( createError(400,'empty trolley'))
-            }
+            // if (data.product == []) {
+            //     next( createError(400,'empty trolley'))
+            // }
             const pushHistory = await History.create(data)
             const deleted = await Cart.destroy({ where: { UserId: pushHistory.UserId } })
             res.status(200).json(pushHistory)

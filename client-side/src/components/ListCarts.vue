@@ -36,13 +36,14 @@ export default {
         this.$store.dispatch("fetchCart");
     },
     computed: {
-        carts(){
-            return this.$store.state.carts
+      carts(){
+        return this.$store.state.carts
         }
     },
     methods: {
-        deleteCart(id){
-            console.log(id);
+      deleteCart(id){
+       
+        this.$store.dispatch("deleteCart");
         }
     },
 };

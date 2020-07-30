@@ -134,7 +134,7 @@
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" />
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
               </div>
-              <button @click.prevent="userLogin" type="submit" class="btn btn-primary">Submit</button>
+              <button @click.prevent="userRegister" type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div>
         </li>
@@ -178,6 +178,13 @@ export default {
         password: this.password
       });
       (this.email = null), (this.password = null);
+    },
+    userRegister() {
+      this.$store.dispatch("postRegister", {
+        registerEmail: this.registerEmail,
+        registerPassword: this.registerPassword
+      });
+      (this.registerEmail = null), (this.registerPassword = null);
     },
     processLogout() {
       localStorage.clear();
