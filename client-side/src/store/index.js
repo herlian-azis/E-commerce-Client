@@ -70,6 +70,7 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         })
+        console.log(dataProduct.data,'dasdsa');
         commit("SET_PRODUCTS", dataProduct.data)
       } catch (error) {
         console.log(error, 'errrorr');
