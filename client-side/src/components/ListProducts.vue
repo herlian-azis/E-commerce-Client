@@ -5,7 +5,7 @@
         <h5 class="card-title m-0 p-0 font-weight-bolder text-secondary">{{product.name}}</h5>
       </div>
       <div class="card-body text-left">
-        <img class="card-img-top imageProduct" :src="product.image_url" alt="" >
+        <img class="card-img-top imageProduct" :src="product.image_url" alt />
         <!-- <p class="card-text">Arduino, Raspbery, Watson or Adafruit</p> -->
         <span class="font-lead-base font-weight-bold text-muted">20% Off!</span>
         <div class="promotion-promo">{{ getRupiah(product.price)}}</div>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="card-footer">
-        <a @click="addCart(product.id)" class="btn btn-warning">add Carts</a>
+        <a @click.prevent="addCart(product.id)" class="btn btn-warning">add Carts</a>
       </div>
     </div>
   </div>
@@ -29,23 +29,25 @@ export default {
     this.$store.dispatch("fetchProduct");
   },
   methods: {
-      addCart(id){
-          this.$store.dispatch('postCart',id)
-      }
-  },methods: {
-    getRupiah(money){
-    return  new Intl.NumberFormat('id', { style: 'currency', currency: 'idr' }).format(money)
+        addCart(id) {
+          console.log("object");
+          this.$store.dispatch("postCart", id);
+        },
+    getRupiah(money) {
+      return new Intl.NumberFormat("id", {
+        style: "currency",
+        currency: "idr"
+      }).format(money);
     }
-  },
-
+  }
 };
 </script>
 
 <style >
-    .imageProduct {
-        height: 200px;
-        width: 268x;
-        object-fit: cover;
-    }
+.imageProduct {
+  height: 200px;
+  width: 268x;
+  object-fit: cover;
+}
 </style>
 

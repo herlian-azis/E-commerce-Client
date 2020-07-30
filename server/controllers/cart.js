@@ -104,10 +104,8 @@ module.exports = class CartController {
                 totalQuantity: 0,
                 totalPrice: 0
             }
-            if (fullPayment) {
-                next( createError(400,'empty trolley'))
-            }
-            console.log(fullPayment,'masukkk');
+            
+            // console.log(fullPayment,'masukkk');
             fullPayment.forEach(result => {
                 if (result.quantity > result.Product.stock) {
                     // console.log(total)
@@ -127,6 +125,9 @@ module.exports = class CartController {
                         data.totalQuantity += result.quantity
                 }
             })
+            if (data.product == []) {
+                next( createError(400,'empty trolley'))
+            }
             const pushHistory = await History.create(data)
             const deleted = await Cart.destroy({ where: { UserId: pushHistory.UserId } })
             res.status(200).json(pushHistory)

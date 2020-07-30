@@ -41,7 +41,7 @@ export default new Vuex.Store({
         })
         commit('SET_LOGIN', true)
         localStorage.setItem('access_token', dataUser.data.token)
-        this.$router.push('/home')
+        this.$router.push({name:'Home'})
       } catch (error) {
         console.log(error.response);
       }
@@ -57,6 +57,8 @@ export default new Vuex.Store({
           }
         })
         localStorage.setItem('access_token', dataUser.data.token)
+        this.$router.push({name:'Home'})
+
       } catch (error) {
         console.log(error.response);
       }
@@ -70,7 +72,6 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         })
-        console.log(dataProduct.data,'dasdsa');
         commit("SET_PRODUCTS", dataProduct.data)
       } catch (error) {
         console.log(error, 'errrorr');
@@ -131,6 +132,7 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         })
+        // console.log(dataHistories.data);
         commit("SET_HISTORIES", dataHistories.data)
       } catch (error) {
         console.log(error);
@@ -145,6 +147,8 @@ export default new Vuex.Store({
             access_token: localStorage.access_token,
           },
         })
+        this.$router.push({name:'Home'})
+
         // commit("SET_HISTORIES", dataPayments.data)
         console.log(dataPayments);
       } catch (error) {

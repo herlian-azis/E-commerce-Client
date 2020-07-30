@@ -34,6 +34,16 @@
 <script>
 export default {
 
+computed: {
+  
+  
+},
+
+created() {
+  this.$store.dispatch('fetchHistory')
+  console.log(this.$store.state.histories);
+  
+},
 }
 </script>
 
