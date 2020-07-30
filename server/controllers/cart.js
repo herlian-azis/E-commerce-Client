@@ -22,11 +22,12 @@ module.exports = class CartController {
     }
 
     static async postCart(req, res, next) {
+        console.log(req.body);
         const { ProductId } = req.body
         const UserId = req.myUser.id
         const { quantity } = req.body
         try {
-            const post = await Cart.findOne({ where: { ProductId } })
+            const post = await Cart.findOne({ where: { UserId, ProductId } })
 
             if (post) {
                 const data = await post.update({ quantity: post.quantity + (+quantity) })
@@ -103,7 +104,10 @@ module.exports = class CartController {
                 totalQuantity: 0,
                 totalPrice: 0
             }
-            console.log(fullPayment);
+            if (fullPayment) {
+                next( createError(400,'empty trolley'))
+            }
+            console.log(fullPayment,'masukkk');
             fullPayment.forEach(result => {
                 if (result.quantity > result.Product.stock) {
                     // console.log(total)

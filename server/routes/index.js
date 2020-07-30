@@ -9,8 +9,8 @@ const {authentication} = require('../middlewares/auth')
 
 router
     .use('/', userRot)
-    .use(authentication)
     .use('/products', productRot)
+    .use(authentication)
     .use('/carts',cartRot)
     .use('/histories',historyRot)
 

@@ -3,27 +3,54 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+import Carts from '../views/Carts.vue';
+import Histories from '../views/Histories.vue';
+import store from "../store";
+
 
 Vue.use(VueRouter);
 
 const routes = [
+
+
   {
     path: '/',
-    name: 'Login',
-    component: Login,
+    name: 'Home',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.access_token) {
+        store.commit("SET_LOGIN", true);
+      } else {
+        store.commit("SET_LOGIN", false);
+      }
+      next();
+    }
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: Register,
+    path: '/carts',
+    name: 'Carts',
+    component: Carts,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.access_token) {
+        store.commit("SET_LOGIN", true);
+      } else {
+        store.commit("SET_LOGIN", false);
+      }
+      next();
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: '/history',
+    name: 'Histories',
+    component: Histories,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.access_token) {
+        store.commit("SET_LOGIN", true);
+      } else {
+        store.commit("SET_LOGIN", false);
+      }
+      next();
+    }
   },
 ];
 

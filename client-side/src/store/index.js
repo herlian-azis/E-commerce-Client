@@ -11,7 +11,8 @@ export default new Vuex.Store({
   state: {
     products: [],
     carts: [],
-    histories: []
+    histories: [],
+    isLoggin: false
   },
   mutations: {
     SET_PRODUCTS(state, product) {
@@ -22,10 +23,13 @@ export default new Vuex.Store({
     },
     SET_CARTS(state, cart) {
       state.carts = cart
+    },
+    SET_LOGIN(state, status) {
+      state.isLoggin = status
     }
   },
   actions: {
-    postLogin({ }, user) {
+    async postLogin({ commit }, user) {
       try {
         const dataUser = await Axios({
           method: "POST",
@@ -35,12 +39,14 @@ export default new Vuex.Store({
             password: user.password
           }
         })
+        commit('SET_LOGIN', true)
         localStorage.setItem('access_token', dataUser.data.token)
+        this.$router.push('/home')
       } catch (error) {
         console.log(error.response);
       }
     },
-    postRegister({ }, user) {
+    async postRegister({ }, user) {
       try {
         const dataUser = await Axios({
           method: "POST",
@@ -55,53 +61,57 @@ export default new Vuex.Store({
         console.log(error.response);
       }
     },
-    fetchProduct({ commit }) {
+    async fetchProduct({ commit }) {
       try {
-        const dataProduct = await Axios({
+        let dataProduct = await Axios({
           method: 'GET',
-          url: `${url}/products`,
+          url: `${myUrl}/products`,
           headers: {
             access_token: localStorage.access_token,
           },
         })
         commit("SET_PRODUCTS", dataProduct.data)
       } catch (error) {
-        console.log(error);
+        console.log(error, 'errrorr');
       }
     },
-    postCart({ }, cart) {
+    async postCart({ }, cart) {
       try {
+        console.log(cart);
         const dataProduct = await Axios({
           method: 'POST',
-          url: `${url}/carts`,
+          url: `${myUrl}/carts`,
           headers: {
             access_token: localStorage.access_token,
           },
+          data:{
+            ProductId:cart,
+            quantity:1
+          }
         })
         console.log(dataProduct);
       } catch (error) {
         console.log(error);
       }
     },
-    deleteCart({ }, id) {
+    async deleteCart({ }, id) {
       try {
         const dataProduct = await Axios({
           method: 'DELETE',
-          url: `${url}/carts/${id}`,
+          url: `${myUrl}/carts/${id}`,
           headers: {
             access_token: localStorage.access_token,
           },
         })
-        console.log(dataProduct);
       } catch (error) {
         console.log(error);
       }
     },
-    fetchCart({ commit }) {
+    async fetchCart({ commit }) {
       try {
         const dataCarts = await Axios({
           method: 'GET',
-          url: `${url}/carts`,
+          url: `${myUrl}/carts`,
           headers: {
             access_token: localStorage.access_token,
           },
@@ -111,16 +121,31 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    fetchHistory({ commit }) {
+    async fetchHistory({ commit }) {
       try {
         const dataHistories = await Axios({
           method: 'GET',
-          url: `${url}/histories`,
+          url: `${myUrl}/histories`,
           headers: {
             access_token: localStorage.access_token,
           },
         })
         commit("SET_HISTORIES", dataHistories.data)
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async payments({ commit }) {
+      try {
+        const dataPayments = await Axios({
+          method: 'GET',
+          url: `${myUrl}/carts/payments`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        // commit("SET_HISTORIES", dataPayments.data)
+        console.log(dataPayments);
       } catch (error) {
         console.log(error);
       }
