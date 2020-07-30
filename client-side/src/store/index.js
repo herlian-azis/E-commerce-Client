@@ -25,7 +25,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    postLogin({ }, user) {
+    async postLogin({ }, user) {
       try {
         const dataUser = await Axios({
           method: "POST",
@@ -40,7 +40,7 @@ export default new Vuex.Store({
         console.log(error.response);
       }
     },
-    postRegister({ }, user) {
+    async  postRegister({ }, user) {
       try {
         const dataUser = await Axios({
           method: "POST",
@@ -55,21 +55,23 @@ export default new Vuex.Store({
         console.log(error.response);
       }
     },
-    fetchProduct({ commit }) {
+    async fetchProduct({ commit }) {
+      console.log("object");
       try {
-        const dataProduct = await Axios({
+        let dataProduct = await Axios({
           method: 'GET',
-          url: `${url}/products`,
+          url: `${myUrl}/products`,
           headers: {
             access_token: localStorage.access_token,
           },
         })
+        console.log(dataProduct.data,'dasdsa');
         commit("SET_PRODUCTS", dataProduct.data)
       } catch (error) {
-        console.log(error);
+        console.log(error,'errrorr');
       }
     },
-    postCart({ }, cart) {
+    async  postCart({ }, cart) {
       try {
         const dataProduct = await Axios({
           method: 'POST',
@@ -83,7 +85,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    deleteCart({ }, id) {
+    async  deleteCart({ }, id) {
       try {
         const dataProduct = await Axios({
           method: 'DELETE',
@@ -97,7 +99,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    fetchCart({ commit }) {
+    async  fetchCart({ commit }) {
       try {
         const dataCarts = await Axios({
           method: 'GET',
@@ -111,7 +113,7 @@ export default new Vuex.Store({
         console.log(error);
       }
     },
-    fetchHistory({ commit }) {
+    async  fetchHistory({ commit }) {
       try {
         const dataHistories = await Axios({
           method: 'GET',
